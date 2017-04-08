@@ -1,0 +1,68 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * {font-family: Consolas, Menlo, monospace;}
+    body {margin: 0; padding: 24px; }
+    canvas {border: 1px dashed teal}
+    pre {display: inline-block; vertical-align: top; width: 45%; border: 1px dashed orange; padding: 16px;line-height: 2; margin: 0; margin-right: 16px;}
+    .op { margin-top: 16px; display: inline-block}
+    .op textarea {width: 480px; height: 240px;}
+    .op button {display: block}
+    .demo-list {margin-top: 8px;}
+  </style>
+</head>
+
+<body>
+  <h3>Canvas</h3>
+  <canvas id="canvas" width="960" height="480"></canvas>
+
+  <div class="op-wrapper">
+
+    <div class="op">
+      <textarea id="input" placeholder="put the bytecodes here" onchange="localStorage.setItem('input', this.value)"></textarea>
+      <button id="run">Run</button>
+    </div>
+
+    <div class="op">
+      <textarea id="env_input" placeholder="put the function body of generation of env object here" onchange="localStorage.setItem('env_input', this.value)"></textarea>
+      <button id="load_env" onclick="env = new Function(env_input.value)(); env_log.innerHTML = Stringify(env)">Load `env`</button>
+    </div>
+
+    <div class="demo-list">
+      Demo List:
+      <button onclick="loadDemo('fib')">Load demo:fib</button>
+      <button onclick="loadDemo('nest_func')">Load demo:nest_func</button>
+      <button onclick="loadDemo('plotting')">load demo:plotting</button>
+    </div>
+  </div>
+
+  <h3>Log(left) and `env`(right) <button onclick="log.innerHTML = ''; env_log.innerHTML = ''">clean</button></h3>
+  <pre id="log"></pre>
+  <pre id="env_log"></pre>
+
+  <script src="../build/pencilbox-vm.js"></script>
+  <script src="interactive.js"></script>
+  <script>
+    input.value = localStorage.getItem('input')
+    env_input.value = localStorage.getItem('env_input')
+
+    console.log = function(){
+      log.innerHTML +=  [].slice.call(arguments).join(' ') + '\n'
+    }
+
+    var canvas_ctx = canvas.getContext('2d')
+    var env = {}
+
+    run.onclick = function(){
+      var bytecodes = JSON.parse('[' + input.value.replace('[', '').replace(']', '') + ']')
+      bytecodes = new Uint8Array(bytecodes)
+
+      var runtime = new PencilBox.Runtime(canvas_ctx)
+      runtime.interpret(bytecodes, env)
+      env_log.innerHTML = Stringify(env)
+    }
+
+  </script>
+</body>
+</html>

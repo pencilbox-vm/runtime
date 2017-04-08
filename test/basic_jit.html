@@ -1,0 +1,490 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {margin: 0}
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="1000" height="500"></canvas>
+
+  <script src="../build/pencilbox-vm.js"></script>
+
+  <script>
+    const canvas_ctx = canvas.getContext('2d')
+
+    const test_compiler = new PencilBox.Compiler()
+    const p = test_compiler.Pencil
+    const test_runtime = new PencilBox.Runtime(canvas_ctx)
+    test_runtime.debug_mode = true
+
+    const colors = []
+    for (let i = 0; i < 1000; i++)
+      colors.push(`rgba(${parseInt(Math.random() * 250)}, ${parseInt(Math.random() * 250)}, ${parseInt(Math.random() * 250)}, 1)`)
+
+    // ============= Test for Context Properties ============
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.print(p.canvas()),
+        p.font('14px Helvatica, Arial'),
+        p.globalAlpha(0.8),
+        p.globalCompositeOperation('exclusion'),
+        p.lineCap('round'),
+        p.lineDashOffset(3),
+        p.lineJoin('miter'),
+        p.miterLimit(2),
+        p.shadowColor('black'),
+        p.shadowBlur(5),
+        p.shadowOffsetX(3),
+        p.shadowOffsetY(3),
+        p.textAlign('center'),
+        p.textBaseline('bottom')
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+
+    // ============= Test for Context Methods ============
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(0,0,50,50),
+        p.arc(25, 25, 25, 0, 1.5 * Math.PI),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(50,0,100,100),
+        p.arcTo(50, 0, 100, 32, 23),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(150,0,100,100),
+        p.moveTo(150, 0),
+        p.lineTo(250, 100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(250,0,100,100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+        p.beginPath(),
+        p.rect(300, 50, 100, 100),
+        p.rect(200, -50, 100, 100),
+        p.closePath(),
+        p.save(),
+        p.clip(),
+        p.fillStyle(colors.pop()),
+        p.fillRect(250, 0, 100, 100),
+        p.restore()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.envSet('createImageData', p.createImageData(100, 100))
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.scope('g', p.createLinearGradient(350, 0, 450, 150))(
+          p.addColorStop(p.get('g'), 0, colors.pop()),
+          p.addColorStop(p.get('g'), 1, colors.pop()),
+          p.fillStyle(p.get('g')),
+          p.fillRect(350, 0, 100, 100)
+        )
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.clearRect(390,40,20,20)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.envSet('getImageData', p.getImageData(0,0,1000,500))
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.fillStyle(p.createPattern(p.envGet('pattern_img'), 'repeat')),
+        p.fillRect(450, 0, 100, 100)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.scope('g', p.createRadialGradient(600, 50, 100, 600, 50, 0))(
+          p.addColorStop(p.get('g'), 0, colors.pop()),
+          p.addColorStop(p.get('g'), 1, colors.pop()),
+          p.fillStyle(p.get('g')),
+          p.fillRect(550, 0, 100, 100)
+        )
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.drawImage(p.envGet('pattern_img'), 0, 0, 100, 100, 650, 0, 100, 100),
+        p.drawImage(p.envGet('pattern_img'), 700, 0, 50, 50)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(750,0,100,100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+
+        p.beginPath(),
+        p.ellipse(800, 50, 25, 50, 45 * Math.PI/180, 0, 2 * Math.PI),
+        p.closePath(),
+        p.stroke()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(850, 0, 100, 100),
+        p.closePath(),
+        p.fillStyle(colors.pop()),
+        p.fill(),
+        p.fillStyle(colors.pop()),
+        p.fillText('fillText填充文本', 850, 40),
+        p.fillText('テキストを入力します', 850, 60)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.translate(200, 200),
+        p.lineWidth(20),
+        p.beginPath(),
+        p.moveTo(20, 20),
+        p.lineTo(80, 20),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+
+        p.beginPath(),
+        p.moveTo(20, 20),
+        p.lineTo(80, 80),
+        p.lineTo(20, 80),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+        p.lineWidth(1),
+        p.translate(-200, -200)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.setLineDash(5, 5),
+        p.print(p.getLineDash())
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(0, 100, 100, 100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+        p.fillStyle(colors.pop()),
+        p.fillText(p.add('40,150 ', p.isPointInPath(40, 150)), 10, 160),
+        p.fillText(p.add('40,0 ', p.isPointInPath(40, 0)), 10, 140)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(100, 100, 100, 100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+        p.fillStyle(colors.pop()),
+        p.fillText(p.add('140,100 ', p.isPointInStroke(140, 100)), 110, 160),
+        p.fillText(p.add('140,140 ', p.isPointInStroke(140, 140)), 110, 140)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.fillStyle(colors.pop()),
+        p.fillText('abcdefg', 210, 150),
+        p.beginPath(),
+        p.rect(200, 100, 100, 100),
+        p.rect(210, 140, p.measureText('abcdefg'), 15),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.putImageData(p.envGet('getImageData'), 300, 100)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(750, 100, 100, 100),
+        p.quadraticCurveTo(800, 150, 850, 150),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke()
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.beginPath(),
+        p.rect(850, 100, 100, 100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+        p.rotate(-1 * Math.PI/180),
+        p.beginPath(),
+        p.rect(850, 100, 100, 100),
+        p.closePath(),
+        p.strokeStyle(colors.pop()),
+        p.stroke(),
+        p.rotate(0)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.setTransform(1, 0.1, -0.1, 1, 0, 200),
+        p.strokeStyle(colors.pop()),
+        p.strokeRect(0, 0, 100, 100),
+        p.setTransform(1, 0, 0, 1, 0, 0)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.translate(100, 200),
+        p.strokeStyle(colors.pop()),
+        p.strokeRect(0, 0, 100, 100)
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.translate(0, 150),
+        p.fillStyle('black'),
+        p.textAlign('left'),
+
+        p.scope('l', p.list(0, 5, 10, 15, 20, 25, 30, 35, 40))(
+          p.fillText(p.eq(8, p.add(3, 5)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(7, p.sub(56, 49)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(6, p.mul(2, 3)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(4, p.div(28, 7)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(3, p.mod(7, 4)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(3, p.mod(7, 4)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq('branch 1 false', p.if(p.eq(8,9), 'branch 1 true', 'branch 1 false')), p.pop(p.get('l')), 0),
+          p.fillText(p.eq('branch 2 true', p.if(p.eq(8,8), 'branch 2 true', 'branch 2 false')), p.pop(p.get('l')), 0),
+          p.fillText(p.eq('branch 3 false', p.if(p.eq(8,7), 'branch 3 true', 'branch 3 false')), p.pop(p.get('l')), 0)
+        )
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.scope('l', p.list(45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145))(
+          p.fillText(p.eq(1,1), p.pop(p.get('l')), 0),
+          p.fillText(p.eq('x','x'), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(0, p.eq(2,'2')), p.pop(p.get('l')), 0),
+
+          p.fillText(p.gt(2,1), p.pop(p.get('l')), 0),
+          p.fillText(p.gt('2', 1), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(0, p.gt(1,1)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(0, p.gt(1,2)), p.pop(p.get('l')), 0),
+
+          p.fillText(p.ge(2, 1), p.pop(p.get('l')), 0),
+          p.fillText(p.ge(1, 1), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(0, p.ge(1,2)), p.pop(p.get('l')), 0),
+
+          p.fillText(p.lt(1, 2), p.pop(p.get('l')), 0),
+          p.fillText(p.lt(1,'5'), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(0, p.lt(2,2)), p.pop(p.get('l')), 0),
+
+          p.fillText(p.le(1, 2), p.pop(p.get('l')), 0),
+          p.fillText(p.le(1,'1'), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(0, p.le(3,2)), p.pop(p.get('l')), 0)
+        )
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+    test_compiler.def(
+      p.scope('f', p.func()(
+
+        p.scope('l', p.list(200, 205, 210, 215, 220, 225, 230, 235, 240))(
+          p.fillText(p.eq(240, p.pop(p.get('l'))), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(205, p.index(p.get('l'), 1)), p.pop(p.get('l')), 0),
+          p.fillText(p.eq(200, p.shift(p.get('l'))), p.pop(p.get('l')), 0),
+          p.push(p.get('l'), 1000),
+          p.fillText(p.eq(1000, p.pop(p.get('l'))), p.pop(p.get('l')), 0),
+          p.unshift(p.get('l'), 1000),
+          p.fillText(p.eq(1000, p.shift(p.get('l'))), p.pop(p.get('l')), 0)
+        )
+
+      ))(
+        p.apply(p.get('f'))
+      )
+    )
+
+
+    const bytes = test_compiler.compile()
+    const env = {}
+
+    const img = new Image()
+    img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png'
+    env.pattern_img = img
+
+    img.onload = () => {
+      test_runtime.interpret(bytes, env)
+    }
+
+    console.log(env)
+  </script>
+
+</body>
+
+</html>

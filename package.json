@@ -1,0 +1,19 @@
+{
+  "name": "pencilbox-vm",
+  "version": "0.1.0",
+  "description": "",
+  "main": "build/pencilbox-vm.js",
+  "scripts": {
+    "build": "tsc && browserify --standalone PencilBox build/pencilbox.js -o build/pencilbox-vm.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "qdwang",
+  "homepage": "",
+  "devDependencies": {
+    "browserify": "^14.1.0",
+    "typescript": "^2.2.1"
+  }
+}
