@@ -497,7 +497,7 @@ export class Runtime {
 
       },
 
-      [Opexplicit.if] : () => {
+      [Opexplicit.ifElse] : () => {
 
         const condition = stack.pop()
         if (condition) {

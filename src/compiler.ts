@@ -162,7 +162,7 @@ export class Compiler {
           bytecodes[bytecodes_len - 2] = offset_bytes[2]
           bytecodes[bytecodes_len - 1] = offset_bytes[3]
 
-        } else if (code === Opexplicit.if) {
+        } else if (code === Opexplicit.ifElse) {
 
           // push condition on stack
           walk(node.t[1], var_stack, varstack_callindex)

@@ -55,7 +55,7 @@ export enum Opexplicit {
   envSet,
 
   // flow control operations
-  if,
+  ifElse,
 
   // boolen operations
   eq,

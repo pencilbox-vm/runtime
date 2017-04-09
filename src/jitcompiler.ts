@@ -306,7 +306,7 @@ class JITCompiler {
       return true
 
     },
-    [Opexplicit.if] : () => {
+    [Opexplicit.ifElse] : () => {
 
       uint32[0] = this.bytecodes[this.pc + 1] + (this.bytecodes[this.pc + 2] << 8) + (this.bytecodes[this.pc + 3] << 16) + (this.bytecodes[this.pc + 4] << 24)
       const else_branch_offset = uint32[0]

@@ -7,7 +7,7 @@ const fib_runtime = new PencilBox.Runtime()
 fib_compiler.def(
   pencil.scope('fib',
     pencil.func('n')(
-      pencil.if(
+      pencil.ifElse(
         pencil.lt(pencil.get('n'), 2),
         pencil.get('n'),
         pencil.add(
@@ -19,7 +19,6 @@ fib_compiler.def(
 )
 
 const bytes_fib = fib_compiler.compile()
-console.log("bytes_fib", bytes_fib.toString())
 console.time('fib pencilbox')
 fib_runtime.interpret(bytes_fib)
 console.timeEnd('fib pencilbox')

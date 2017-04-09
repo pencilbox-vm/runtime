@@ -265,9 +265,9 @@
         p.fillText(p.eq(4, p.div(28, 7)), p.pop(p.get('l')), 0),
         p.fillText(p.eq(3, p.mod(7, 4)), p.pop(p.get('l')), 0),
         p.fillText(p.eq(3, p.mod(7, 4)), p.pop(p.get('l')), 0),
-        p.fillText(p.eq('branch 1 false', p.if(p.eq(8,9), 'branch 1 true', 'branch 1 false')), p.pop(p.get('l')), 0),
-        p.fillText(p.eq('branch 2 true', p.if(p.eq(8,8), 'branch 2 true', 'branch 2 false')), p.pop(p.get('l')), 0),
-        p.fillText(p.eq('branch 3 false', p.if(p.eq(8,7), 'branch 3 true', 'branch 3 false')), p.pop(p.get('l')), 0)
+        p.fillText(p.eq('branch 1 false', p.ifElse(p.eq(8,9), 'branch 1 true', 'branch 1 false')), p.pop(p.get('l')), 0),
+        p.fillText(p.eq('branch 2 true', p.ifElse(p.eq(8,8), 'branch 2 true', 'branch 2 false')), p.pop(p.get('l')), 0),
+        p.fillText(p.eq('branch 3 false', p.ifElse(p.eq(8,7), 'branch 3 true', 'branch 3 false')), p.pop(p.get('l')), 0)
       )
     )
 
