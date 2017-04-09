@@ -2,29 +2,23 @@
 
 PencilBox is a VM for Web Canvas Plotting.
 
-### What is this repository for?
+## What is this repository for
 
-* **PencilBox** is a virtual machine running in browser. It provides canvas plotting for other programming languages and platform(C#, Python, etc).
+**PencilBox** is a virtual machine running in browser. It provides canvas plotting for other programming languages and platform(C#, Python, etc).
 
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Environment
+Chrome, Firefox, IE9+
 
-### How do I get set up?
+## How to build
+```npm
+npm run build
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## How to use
+You need to build the `pencilbox-vm.js` file before using it.
 
-### Contribution guidelines
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to?
-
-* Repo owner or admin
-* Other community or team contact
+| target | doc/file to check |
+| --- | --- |
+| plot graph | [test/basic.html](https://github.com/pencilbox-vm/runtime/blob/master/test/basic.html) |
+| using function | [test/basic_jit.html](https://github.com/pencilbox-vm/runtime/blob/master/test/basic_jit.html) |
+| interactive with events | [test/interactive.html](https://github.com/pencilbox-vm/runtime/blob/master/test/interactive.html) |
