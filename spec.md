@@ -72,7 +72,7 @@ The unicode for end of text
 | mod | 40 | pop 2 elements from stack and push the modulo result of them to stack | `mod` |
 | envGet | 41 | get value from env with popped value from stack as key | `envGet` |
 | envSet | 42 | set value in env with popped value from stack as key | `envSet` |
-| if | 43 | detect if the popped value from stack is 1 or 0 | `if` |
+| ifElse | 43 | detect if the popped value from stack is 1 or 0 | `if` |
 | eq | 44 | push the equalization of popped 2 values from stack(true is 1 and false is 0) | `eq` |
 | gt | 45 | greater than detection for 2 popped values from stack | `gt` |
 | ge | 46 | greater than or equal to detection for 2 popped values from stack | `ge` |

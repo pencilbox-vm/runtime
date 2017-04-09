@@ -20,5 +20,8 @@ You need to build the `pencilbox-vm.js` file before using it.
 | target | doc/file to check |
 | --- | --- |
 | plot graph | [test/basic.html](https://github.com/pencilbox-vm/runtime/blob/master/test/basic.html) |
-| using function | [test/basic_jit.html](https://github.com/pencilbox-vm/runtime/blob/master/test/basic_jit.html) |
+| using function | [test/func.js](https://github.com/pencilbox-vm/runtime/blob/master/test/func.js) |
 | interactive with events | [test/interactive.html](https://github.com/pencilbox-vm/runtime/blob/master/test/interactive.html) |
+
+## Specification
+[specification](https://github.com/pencilbox-vm/runtime/blob/master/spec.md)
