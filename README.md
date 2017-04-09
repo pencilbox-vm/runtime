@@ -1,9 +1,7 @@
 # PencilBox
-
-PencilBox is a VM for Web Canvas Plotting.
+PencilBox is a Virtual Machine for HTML canvas plotting.
 
 ## What is this repository for
-
 **PencilBox** is a virtual machine running in browser. It provides canvas plotting for other programming languages and platform(C#, Python, etc).
 
 ## Environment
