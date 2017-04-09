@@ -9,6 +9,7 @@ Chrome, Firefox, IE9+
 
 ## How to build
 ```npm
+npm install
 npm run build
 ```
 
